@@ -217,25 +217,37 @@ with col2:
     late_payments = st.number_input("Late Payments (Count)", min_value=0, max_value=20, value=2)
     loan_amount = st.number_input("Loan Amount (₹)", min_value=0, value=1000000)
     interest_rate = st.number_input("Interest Rate (%)", min_value=0.0, max_value=30.0, value=8.5)
+    loan_tenure = st.selectbox("Loan Tenure (Years)", [1, 2, 3, 5, 7, 10, 15, 20, 25, 30])
     savings_balance = st.number_input("Savings Balance (₹)", min_value=0, value=100000)
 
 # Auto-calculate DTI
 st.markdown("---")
 st.subheader("Debt-to-Income Ratio Calculation")
 
+# Calculate real EMI (Equated Monthly Installment)
 monthly_income = income / 12
-monthly_loan = loan_amount / 12
+monthly_interest_rate = interest_rate / 100 / 12
+num_months = loan_tenure * 12
+
+if loan_amount > 0 and monthly_interest_rate > 0:
+    # EMI Formula: P × r × (1+r)^n / ((1+r)^n - 1)
+    numerator = loan_amount * monthly_interest_rate * ((1 + monthly_interest_rate) ** num_months)
+    denominator = ((1 + monthly_interest_rate) ** num_months) - 1
+    monthly_loan = numerator / denominator
+else:
+    monthly_loan = loan_amount / 12 if loan_tenure else 0
+
 calculated_dti = (monthly_loan / monthly_income) if monthly_income > 0 else 0
 
 col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Monthly Income", f"₹{monthly_income:,.0f}")
 with col2:
-    st.metric("Monthly Loan Payment", f"₹{monthly_loan:,.0f}")
+    st.metric("Monthly EMI Payment", f"₹{monthly_loan:,.0f}")
 with col3:
     st.metric("Calculated DTI", f"{calculated_dti:.2f}")
 
-st.info(f"Formula: ₹{monthly_loan:,.0f} ÷ ₹{monthly_income:,.0f} = {calculated_dti:.2f}")
+st.info(f"EMI Calculation: ₹{monthly_loan:,.0f} ÷ ₹{monthly_income:,.0f} = {calculated_dti:.2f} (Based on {loan_tenure}-year tenure @ {interest_rate}%)")
 
 # Assess button
 st.markdown("---")
@@ -255,13 +267,14 @@ if st.button("Assess Credit Risk", key="predict", use_container_width=True):
         'age': age,
         'income': income,
         'creditRating': rating_map[credit_rating],
-        'debtToIncomeRatio': dti_ratio,
+        'debtToIncomeRatio': calculated_dti,
         'employmentLength': employment_length,
         'numAccounts': num_accounts,
         'latePayments': late_payments,
         'loanAmount': loan_amount,
         'interestRate': interest_rate,
-        'savingsBalance': savings_balance
+        'savingsBalance': savings_balance,
+        'loanTenure': loan_tenure
     }
     
     risk_score = calculate_credit_risk(input_data)
