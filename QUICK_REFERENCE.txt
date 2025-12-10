@@ -1,0 +1,176 @@
+================================================================================
+CREDIT RISK ASSESSMENT CALCULATOR - QUICK REFERENCE
+================================================================================
+
+STARTUP OPTIONS:
+================
+
+1. QUICK START (Manual):
+   Double-click: start_app.bat
+   Opens the app locally on http://localhost:8501
+
+2. AUTO-START ON BOOT (24/7, No Cost):
+   Right-click: setup_auto_start.bat → "Run as Administrator"
+   App will auto-start with Windows
+
+================================================================================
+
+WHAT'S NEW IN THIS VERSION:
+===========================
+
+✓ Auto-Calculating DTI (Debt-to-Income)
+  - Automatically calculates when you change Income or Loan Amount
+  - Shows: Monthly Loan ÷ Monthly Income = DTI
+  - Cannot be manually edited (read-only field)
+
+✓ Any Number Format
+  - Income: Can be 13245464, 500000.5, 123456.789, etc.
+  - Loan Amount: Can be 999999, 1000000.75, 2500000.25, etc.
+  - Interest Rate: Can be 1.99, 14.5754, 8.125, etc.
+  - No step restrictions or validation limits
+
+✓ Professional UI
+  - Dark/Light mode toggle (top-right button)
+  - Saves your theme preference
+  - Sophisticated English-only interface
+  - No emojis, clean design
+
+================================================================================
+
+HOW TO USE:
+===========
+
+1. Enter your information:
+   - Age (years)
+   - Annual Income (₹)
+   - CIBIL Credit Rating (dropdown)
+   - DTI updates automatically ← No need to calculate!
+   - Employment Length (years)
+   - Number of Active Accounts
+   - Late Payments (count)
+   - Loan Amount (₹) ← DTI updates when you change this
+   - Interest Rate (%) ← Can be any decimal (1.99, 14.5754, etc.)
+   - Savings Balance (₹)
+
+2. Click "Assess Credit Risk"
+
+3. See your rating:
+   - Excellent (Green) → Best rates
+   - Good (Light Green) → Easy approval
+   - Average (Orange) → Higher rates
+   - Fair (Dark Orange) → Stricter conditions
+   - Poor (Red) → Difficulty getting loans
+
+================================================================================
+
+RUNNING 24/7 (FREE OPTIONS):
+=============================
+
+OPTION A: Batch File (Simple)
+- Use: start_app.bat
+- Pro: Easy, one-click
+- Con: Must start manually
+
+OPTION B: Auto-Start on Boot (Recommended)
+- Use: setup_auto_start.bat (Run as Administrator)
+- Pro: Always running, starts with Windows
+- Con: Runs in background (no visible window usually)
+
+HOW TO VERIFY IT'S RUNNING:
+1. Open http://localhost:8501 in browser
+2. If it loads, the app is running!
+
+HOW TO STOP AUTO-START:
+1. Open Windows Task Scheduler
+2. Find "CreditRiskApp" in the task list
+3. Right-click → Delete
+
+================================================================================
+
+TROUBLESHOOTING:
+================
+
+Problem: "Unable to connect to server"
+Solution: 
+- Make sure start_app.bat is running
+- Refresh the browser (Ctrl+R)
+- Check port 8501 isn't blocked by firewall
+
+Problem: "DTI not calculating"
+Solution:
+- Try typing a number in Income field
+- Check browser console for errors (F12)
+- Refresh page
+
+Problem: Interest Rate validation error
+Solution:
+- This is fixed! You can now enter any decimal
+- Try: 1.99, 14.5754, 8.125, etc.
+
+Problem: Port 8501 already in use
+Solution:
+- Edit app.py, find line: app.run(debug=False, host='0.0.0.0', port=8501
+- Change 8501 to 8502 or any free port
+- Then restart app.py
+
+================================================================================
+
+FILE STRUCTURE:
+===============
+
+C:\Users\AVISHKAR LOKHANDE\Desktop\credit_risk_app\
+├── app.py                    (Main Flask server)
+├── start_app.bat            (Quick start - DOUBLE-CLICK THIS)
+├── setup_auto_start.bat     (Auto-start setup - RUN AS ADMIN)
+├── requirements.txt         (Python dependencies)
+├── README.md                (Full documentation)
+├── templates/
+│   └── index.html          (Web interface)
+└── QUICK_REFERENCE.txt     (This file)
+
+================================================================================
+
+MATHEMATICAL FORMULA EXPLANATION:
+==================================
+
+Risk Score = Sum of 10 weighted factors (0-100 scale)
+
+Each factor contributes points:
+- Age:              0-10 points
+- Income:           0-25 points
+- CIBIL Rating:     0-40 points
+- DTI Ratio:        0-25 points
+- Employment:       0-15 points
+- Late Payments:    0-35 points
+- Accounts:         0-12 points
+- Savings Buffer:   0-10 points
+- Loan-to-Value:    0-20 points
+- Interest Rate:    0-8 points
+
+TOTAL MAX: 100 points (but capped at 100)
+
+INTERPRETATION:
+- Lower score = Lower risk = Better credit profile = Better loan terms
+- Higher score = Higher risk = Worse credit profile = Difficulty getting loans
+
+RBI GUIDELINES INCORPORATED:
+- Minimum income: ₹150,000/year
+- DTI Ratio: Should be <50% (as per RBI)
+- CIBIL Thresholds: 600-900 (standard in India)
+- Employment stability: Valued (lower risk with longer tenure)
+- Payment history: Critical factor (late payments heavily penalized)
+
+================================================================================
+
+CONTACT & SUPPORT:
+==================
+
+For issues or questions:
+1. Check README.md for full documentation
+2. Check QUICK_REFERENCE.txt (this file)
+3. Contact development team
+
+Version: 1.0
+Last Updated: December 2025
+
+================================================================================
